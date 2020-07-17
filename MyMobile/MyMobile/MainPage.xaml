@@ -6,11 +6,26 @@
              mc:Ignorable="d"
              x:Class="MyMobile.MainPage">
 
-    <StackLayout>
+    <StackLayout >
         <!-- Place new controls here -->
-        <Label Text="Привет!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+       <Grid>
+           <Grid.RowDefinitions>
+               <RowDefinition/>
+               <RowDefinition Height="Auto"/>
+           </Grid.RowDefinitions>
+           <ListView x:Name="MainListView"/>
+
+
+
+           <Grid Grid.Row="1">
+               <Grid.ColumnDefinitions>
+                   <ColumnDefinition/>
+                   <ColumnDefinition/>
+               </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Text="Автоматы" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+                <Button Grid.Column="1" Text="Ингредиенты" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+            </Grid>
+       </Grid>
     </StackLayout>
 
 </ContentPage>
