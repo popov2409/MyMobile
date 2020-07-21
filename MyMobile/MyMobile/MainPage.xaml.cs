@@ -22,21 +22,31 @@ namespace MyMobile
 
         void InitializePage()
         {
-            IngredientListView.ItemsSource = DbProxy.Ingridients;
-            AvtomatListView.ItemsSource = DbProxy.Avtomats;
+            IngredientListView.ItemsSource = DbProxy.Ingridients.OrderBy(c=>c.Value);
+            AvtomatListView.ItemsSource = DbProxy.Avtomats.OrderBy(c => c.Value);
         }
 
 
         private void AvtomatButton_OnClicked(object sender, EventArgs e)
         {
-            AvtomatListView.IsVisible = true;
-            IngredientListView.IsVisible = false;
+            AvtomatGrid.IsVisible = true;
+            IngredienGrid.IsVisible = false;
+            AvtomatButton.BackgroundColor = Color.DarkOrange;
+            IngredientButton.BackgroundColor = Color.Black;
+            AvtomatButton.FontSize = 18;
+            IngredientButton.FontSize = 16;
         }
 
         private void IngredientButton_OnClicked(object sender, EventArgs e)
         {
-            AvtomatListView.IsVisible = false;
-            IngredientListView.IsVisible = true;
+            AvtomatGrid.IsVisible = false;
+            IngredienGrid.IsVisible = true;
+
+            AvtomatButton.BackgroundColor = Color.Black;
+            IngredientButton.BackgroundColor = Color.DarkOrange;
+
+            AvtomatButton.FontSize = 16;
+            IngredientButton.FontSize = 18;
         }
     }
 }

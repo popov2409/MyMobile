@@ -5,43 +5,63 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="MyMobile.MainPage">
-
-    <StackLayout x:Name="BaseLayout">
+    <StackLayout x:Name="BaseLayout" BackgroundColor="Black">
         <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="AvtomatListView" Grid.Row="0" IsVisible="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="Black" VerticalTextAlignment="Center"/>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView x:Name="IngredientListView" Grid.Row="0" IsVisible="False" BindingContext="Value">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="Black" VerticalTextAlignment="Center"/>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid x:Name="AvtomatGrid" Grid.Row="1" IsVisible="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image></Image>
+                    <Entry Grid.Column="1" BackgroundColor="Gray" Margin="3"></Entry>
+                </Grid>
 
-            <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+
+                <ListView x:Name="AvtomatListView" Grid.Row="1">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="White" VerticalTextAlignment="Center"/>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid x:Name="IngredienGrid" Grid.Row="1" IsVisible="False">
+                <ListView x:Name="IngredientListView" BindingContext="Value">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="White" VerticalTextAlignment="Center"/>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+            
+            
+
+            <Grid Grid.Row="0" HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="AvtomatButton" Grid.Column="0" Text="Автоматы" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="AvtomatButton_OnClicked"/>
-                <Button x:Name="IngredientButton" Grid.Column="1" Text="Ингредиенты" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Clicked="IngredientButton_OnClicked"/>
+                <Button x:Name="AvtomatButton" Grid.Column="0" Text="Автоматы" FontSize="16" TextColor="White" BackgroundColor="DarkOrange"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="AvtomatButton_OnClicked"/>
+                <Button x:Name="IngredientButton" Grid.Column="1" Text="Ингредиенты" FontSize="16" TextColor="White" BackgroundColor="Black"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="IngredientButton_OnClicked"/>
             </Grid>
         </Grid>
         <!-- Place new controls here -->
