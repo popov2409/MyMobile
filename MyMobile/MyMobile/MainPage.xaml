@@ -13,16 +13,17 @@
             </Grid.RowDefinitions>
             <Grid x:Name="AvtomatGrid" Grid.Row="1" IsVisible="True">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Image></Image>
-                    <Entry Grid.Column="1" BackgroundColor="Gray" Margin="3"></Entry>
+                    <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" BackgroundColor="DarkOrange" Margin="3" FontSize="16" TextColor="White" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
+                    <Image Source="search" Grid.Column="1" Margin="2" />
                 </Grid>
 
 

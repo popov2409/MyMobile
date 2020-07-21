@@ -48,5 +48,10 @@ namespace MyMobile
             AvtomatButton.FontSize = 16;
             IngredientButton.FontSize = 18;
         }
+
+        private void AvtomatSearchEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            AvtomatListView.ItemsSource = DbProxy.Avtomats.Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
+        }
     }
 }
