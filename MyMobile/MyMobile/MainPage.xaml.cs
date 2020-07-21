@@ -22,28 +22,21 @@ namespace MyMobile
 
         void InitializePage()
         {
-            List<string> Items = DbProxy.Ingridients.Select(c => c.Value).ToList();
+            IngredientListView.ItemsSource = DbProxy.Ingridients;
+            AvtomatListView.ItemsSource = DbProxy.Avtomats;
+        }
 
-            Button avtomatButton = new Button() { Text = "Автоматы" };
-            Grid.SetColumn(avtomatButton,0);
 
-            Button ingredientButton=new Button(){Text = "Ингредиенты"};
-            Grid.SetColumn(ingredientButton,1);
+        private void AvtomatButton_OnClicked(object sender, EventArgs e)
+        {
+            AvtomatListView.IsVisible = true;
+            IngredientListView.IsVisible = false;
+        }
 
-            ListView ingridienView = new ListView() {ItemsSource = Items};
-            Grid.SetRow(ingridienView,0);
-
-            Grid buttonGrid = new Grid()
-            {
-                ColumnDefinitions = new ColumnDefinitionCollection() {new ColumnDefinition(), new ColumnDefinition()},
-                Children = {avtomatButton, ingredientButton}
-            };
-
-            Grid.SetRow(buttonGrid,1);
-
-            Grid mainGrid=new Grid(){RowDefinitions = new RowDefinitionCollection(){new RowDefinition(),new RowDefinition(){Height = GridLength.Auto}},Children = {ingridienView,buttonGrid }};
-
-            this.Content = new StackLayout() {Children = {mainGrid}};
+        private void IngredientButton_OnClicked(object sender, EventArgs e)
+        {
+            AvtomatListView.IsVisible = false;
+            IngredientListView.IsVisible = true;
         }
     }
 }

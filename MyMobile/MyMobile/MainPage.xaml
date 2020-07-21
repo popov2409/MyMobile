@@ -6,7 +6,44 @@
              mc:Ignorable="d"
              x:Class="MyMobile.MainPage">
 
-    <StackLayout>
+    <StackLayout x:Name="BaseLayout">
+        <Grid x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView x:Name="AvtomatListView" Grid.Row="0" IsVisible="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="Black" VerticalTextAlignment="Center"/>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="IngredientListView" Grid.Row="0" IsVisible="False" BindingContext="Value">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="Black" VerticalTextAlignment="Center"/>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="AvtomatButton" Grid.Column="0" Text="Автоматы" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="AvtomatButton_OnClicked"/>
+                <Button x:Name="IngredientButton" Grid.Column="1" Text="Ингредиенты" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Clicked="IngredientButton_OnClicked"/>
+            </Grid>
+        </Grid>
         <!-- Place new controls here -->
     </StackLayout>
 
