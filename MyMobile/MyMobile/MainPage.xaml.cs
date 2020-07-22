@@ -18,51 +18,29 @@ namespace MyMobile
             InitializeComponent();
             DbProxy.LoadData();
             InitializePage();
-            StartPages();
-           
-        }
-
-
-        void StartPages()
-        {
-            AvtomatGrid.IsVisible = true;
-            InputDataGrid.IsVisible = false;
         }
 
         void InitializePage()
         {
+            AvtomatGrid.IsVisible = true;
+            InputDataGrid.IsVisible = false;
+            foreach (Ingredient ingridient in DbProxy.Ingridients)
+            {
+                ingridient.Count = 0;
+            }
             IngredientListView.ItemsSource = DbProxy.Ingridients.OrderBy(c => c.Value);
             AvtomatListView.ItemsSource = DbProxy.Avtomats.OrderBy(c => c.Value);
+            selectedAvtomat = null;
         }
 
-
-        //private void AvtomatButton_OnClicked(object sender, EventArgs e)
-        //{
-        //    AvtomatGrid.IsVisible = true;
-        //    IngredienGrid.IsVisible = false;
-        //    AvtomatButton.BackgroundColor = Color.DarkOrange;
-        //    IngredientButton.BackgroundColor = Color.Black;
-        //    AvtomatButton.FontSize = 18;
-        //    IngredientButton.FontSize = 16;
-        //}
-
-        //private void IngredientButton_OnClicked(object sender, EventArgs e)
-        //{
-        //    AvtomatGrid.IsVisible = false;
-        //    IngredienGrid.IsVisible = true;
-
-        //    AvtomatButton.BackgroundColor = Color.Black;
-        //    IngredientButton.BackgroundColor = Color.DarkOrange;
-
-        //    AvtomatButton.FontSize = 16;
-        //    IngredientButton.FontSize = 18;
-        //}
 
         private void AvtomatSearchEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             AvtomatListView.ItemsSource = DbProxy.Avtomats.Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
         }
 
+
+        private Avtomat selectedAvtomat;
         private void InputDataButton_OnClicked(object sender, EventArgs e)
         {
             if (AvtomatListView.SelectedItem == null)
@@ -73,13 +51,13 @@ namespace MyMobile
 
             AvtomatGrid.IsVisible = false;
             InputDataGrid.IsVisible = true;
-            Avtomat a=AvtomatListView.SelectedItem as Avtomat;
-            AvtomatNameLabel.Text = a.Value;
+            selectedAvtomat = AvtomatListView.SelectedItem as Avtomat;
+            AvtomatNameLabel.Text = selectedAvtomat.Value;
         }
 
         private void BackButton_OnClicked(object sender, EventArgs e)
         {
-            StartPages();
+            InitializePage();
         }
 
         private void VisualElement_OnUnfocused(object sender, FocusEventArgs e)
@@ -87,5 +65,18 @@ namespace MyMobile
             if ((sender as Entry).Text.Trim().Length == 0) (sender as Entry).Text = "0";
         }
 
+        private Ingredient selIngedient;
+
+        private void SaveButton_OnClicked(object sender, EventArgs e)
+        {
+            Record rec = new Record() {Avtomat = selectedAvtomat.Id, Date = DatePicker.Date.ToShortDateString()};
+            Dictionary<Guid, int> dictionary = new Dictionary<Guid, int>();
+            foreach (Ingredient ingridient in DbProxy.Ingridients)
+            {
+                dictionary.Add(ingridient.Id, ingridient.Count);
+            }
+            rec.Ingredients = dictionary;
+            DbProxy.SaveData(rec);
+        }
     }
 }

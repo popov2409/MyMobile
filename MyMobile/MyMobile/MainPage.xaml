@@ -39,17 +39,19 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button x:Name="InputDataButton" Margin="2" Grid.Row="2" Text="Ввод данных" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="InputDataButton_OnClicked"/>
+                <Button x:Name="InputDataButton" Margin="2" Grid.Row="2" Text="ВВОД ДАННЫХ" FontAttributes="Bold" TextColor="Black" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="InputDataButton_OnClicked"/>
             </Grid>
 
             <Grid x:Name="InputDataGrid" Grid.Row="1" IsVisible="True">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" x:Name="AvtomatNameLabel" Text="cc" TextColor="DarkOrange" Margin="10,0,0,0" FontSize="24"/>
-                <ListView x:Name="IngredientListView" Grid.Row="1" Margin="20,0,0,0">
+                <DatePicker x:Name="DatePicker" Grid.Row="0" BackgroundColor="Black" TextColor="White" FontSize="20" HorizontalOptions="End"  Format="dd/M/yyyy"/>
+                <Label x:Name="AvtomatNameLabel" Grid.Row="1" Text="cc" TextColor="DarkOrange" Margin="10,0,0,0" FontSize="24" VerticalOptions="FillAndExpand"/>
+                <ListView x:Name="IngredientListView" Grid.Row="2" Margin="20,0,0,0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -57,27 +59,25 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition Width="40"/>
                                             <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="40"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
+                                        <Stepper Grid.Column="2" x:Name="Stepper" Minimum="0" Maximum="9999" Value="{Binding Path=Count}"/>
                                         <Label Grid.Column="0" TextColor="White" FontSize="20" Text="{Binding Path=Value}" VerticalOptions="Center"/>
-                                        <Button Grid.Column="1" TextColor="Black" Text="-" FontSize="20" HorizontalOptions="Center"/>
-                                        <Entry Grid.Column="2" TextColor="White" FontSize="20" Text="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Unfocused="VisualElement_OnUnfocused" Keyboard="Numeric"/>
-                                        <Button Grid.Column="3" TextColor="Black" Text="+" FontSize="20" HorizontalOptions="Center" />
+                                        <Entry Grid.Column="1" TextColor="White" FontSize="20" Text="{Binding Source={x:Reference Stepper}, Path=Value}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Keyboard="Numeric" Unfocused="VisualElement_OnUnfocused"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="BackButton" Grid.Column="0" Margin="1"  Text="НАЗАД" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="BackButton_OnClicked"/>
-                    <Button x:Name="SaveButton" Grid.Column="1" Margin="1"  Text="СОХРАНИТЬ" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand"/>
+                    <Button x:Name="BackButton" Grid.Column="0" Margin="1"  Text="НАЗАД" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="FillAndExpand" Clicked="BackButton_OnClicked"/>
+                    <Button x:Name="SaveButton" Grid.Column="1" Margin="1"  Text="СОХРАНИТЬ" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
                 </Grid>
             </Grid>
 
@@ -102,14 +102,7 @@
             <Label Grid.Row="0" HorizontalOptions="FillAndExpand" Text="Автоматы" BackgroundColor="DarkOrange" HorizontalTextAlignment="Center" FontSize="24" TextColor="White" VerticalTextAlignment="Center"/>
             
 
-            <!--<Grid Grid.Row="0" HorizontalOptions="FillAndExpand">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="AvtomatButton" Grid.Column="0" Text="Автоматы" FontSize="16" TextColor="White" BackgroundColor="DarkOrange"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="AvtomatButton_OnClicked"/>
-                <Button x:Name="IngredientButton" Grid.Column="1" Text="Ингредиенты" FontSize="16" TextColor="White" BackgroundColor="Black"  HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="IngredientButton_OnClicked"/>
-            </Grid>-->
+            
         </Grid>
         <!-- Place new controls here -->
     </StackLayout>
