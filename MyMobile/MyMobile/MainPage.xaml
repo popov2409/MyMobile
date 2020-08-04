@@ -39,7 +39,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button x:Name="InputDataButton" Margin="2" Grid.Row="2" Text="ВВОД ДАННЫХ" FontAttributes="Bold" TextColor="Black" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="InputDataButton_OnClicked"/>
+                <Button x:Name="InputDataButton" Margin="2" Grid.Row="2" Text="ВВОД ДАННЫХ" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="InputDataButton_OnClicked"/>
             </Grid>
 
             <Grid x:Name="InputDataGrid" Grid.Row="1" IsVisible="True">
@@ -76,8 +76,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="BackButton" Grid.Column="0" Margin="1"  Text="НАЗАД" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="FillAndExpand" Clicked="BackButton_OnClicked"/>
-                    <Button x:Name="SaveButton" Grid.Column="1" Margin="1"  Text="СОХРАНИТЬ" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
+                    <Button x:Name="BackButton" Grid.Column="0" Margin="1"  Text="НАЗАД" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="BackButton_OnClicked"/>
+                    <Button x:Name="SaveButton" Grid.Column="1" Margin="1"  Text="СОХРАНИТЬ" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
                 </Grid>
             </Grid>
 
