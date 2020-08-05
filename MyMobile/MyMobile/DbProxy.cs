@@ -26,6 +26,31 @@ namespace MyMobile
             return database.Table<Avtomat>().ToList();
         }
 
+        public int DeleteItem(object item)
+        {
+            switch (item)
+            {
+                case Avtomat avtomat:
+                    return database.Delete<Avtomat>(avtomat.Id);
+                case Ingredient ingredient:
+                    return database.Delete<Ingredient>(ingredient.Id);
+                case Record record:
+                    return database.Delete<Record>(record.Id);
+                default:
+                    return 0;
+            }
+        } 
+
+        public Avtomat GetAvtomat(int id)
+        {
+            return database.Get<Avtomat>(id);
+        }
+
+        public Ingredient GetIngredient(int id)
+        {
+            return database.Get<Ingredient>(id);
+        }
+
         public IEnumerable<Ingredient> GetIngridients()
         {
             return database.Table<Ingredient>().ToList();
@@ -36,6 +61,36 @@ namespace MyMobile
             return database.Table<Record>().ToList();
         }
 
+        /// <summary>
+        /// Сохранение данных
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public int SaveItem(Object item)
+        {
+            switch (item)
+            {
+                case Avtomat avtomat when avtomat.Id != 0:
+                    database.Update(avtomat);
+                    return avtomat.Id;
+                case Avtomat avtomat:
+                    return database.Insert(avtomat);
+                case Ingredient ingredient when ingredient.Id != 0:
+                    database.Update(ingredient);
+                    return ingredient.Id;
+                case Ingredient ingredient:
+                    return database.Insert(ingredient);
+                case Record record when record.Id != 0:
+                    database.Update(record);
+                    return record.Id;
+                case Record record:
+                    return database.Insert(record);
+                default:
+                    return 0;
+            }
+        }
+
+       
         //static void TestData()
         //{
         //    Avtomats.Add(new Avtomat() {Value = "Хлебозавод"});
@@ -74,6 +129,7 @@ namespace MyMobile
 
         public string Value { get; set; }
 
+        public int Count { get; set; }
     }
 
     [Table("Record")]

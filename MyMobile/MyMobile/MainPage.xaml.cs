@@ -16,7 +16,6 @@ namespace MyMobile
         public MainPage()
         {
             InitializeComponent();
-            DbProxy.LoadData();
             InitializePage();
         }
 
@@ -24,19 +23,19 @@ namespace MyMobile
         {
             AvtomatGrid.IsVisible = true;
             InputDataGrid.IsVisible = false;
-            foreach (Ingredient ingridient in DbProxy.Ingridients)
+            foreach (Ingredient ingridient in App.Database.GetIngridients())
             {
                 ingridient.Count = 0;
             }
-            IngredientListView.ItemsSource = DbProxy.Ingridients.OrderBy(c => c.Value);
-            AvtomatListView.ItemsSource = DbProxy.Avtomats.OrderBy(c => c.Value);
+            IngredientListView.ItemsSource = App.Database.GetIngridients().OrderBy(c => c.Value);
+            AvtomatListView.ItemsSource = App.Database.GetAvtomats().OrderBy(c => c.Value);
             selectedAvtomat = null;
         }
 
 
         private void AvtomatSearchEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            AvtomatListView.ItemsSource = DbProxy.Avtomats.Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
+            AvtomatListView.ItemsSource = App.Database.GetAvtomats().Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
         }
 
 
@@ -69,14 +68,33 @@ namespace MyMobile
 
         private void SaveButton_OnClicked(object sender, EventArgs e)
         {
-            Record rec = new Record() {Avtomat = selectedAvtomat.Id, Date = DatePicker.Date.ToShortDateString()};
-            Dictionary<Guid, int> dictionary = new Dictionary<Guid, int>();
-            foreach (Ingredient ingridient in DbProxy.Ingridients)
-            {
-                dictionary.Add(ingridient.Id, ingridient.Count);
-            }
-            rec.Ingredients = dictionary;
-            DbProxy.SaveData(rec);
+            //Record rec = new Record() {Avtomat = selectedAvtomat.Id, Date = DatePicker.Date.ToShortDateString()};
+            //Dictionary<Guid, int> dictionary = new Dictionary<Guid, int>();
+            //foreach (Ingredient ingridient in DbProxy.Ingridients)
+            //{
+            //    dictionary.Add(ingridient.Id, ingridient.Count);
+            //}
+            //rec.Ingredients = dictionary;
+            //DbProxy.SaveData(rec);
+        }
+
+        void CreateTestData()
+        {
+            App.Database.SaveItem(new Avtomat() {Value = "Хлебозавод"});
+            App.Database.SaveItem(new Avtomat() { Value = "Мираторг строитель" });
+            App.Database.SaveItem(new Avtomat() { Value = "Площадь Василевского" });
+            App.Database.SaveItem(new Avtomat() { Value = "Дом профсоюзов" }); 
+            App.Database.SaveItem(new Avtomat() { Value = "Бау Мосиев" });
+            App.Database.SaveItem(new Avtomat() { Value = "Мираторг лев" });
+
+                
+            App.Database.SaveItem(new Ingredient() { Value = "Стаканы" });
+            App.Database.SaveItem(new Ingredient() { Value = "Палочки" });
+            App.Database.SaveItem(new Ingredient() { Value = "Сахар" });
+            App.Database.SaveItem(new Ingredient() { Value = "Вода" });
+            App.Database.SaveItem(new Ingredient() { Value = "Коф.зерн" });
+            App.Database.SaveItem(new Ingredient() { Value = "Сливки" });
+            App.Database.SaveItem(new Ingredient() { Value = "Чай" });
         }
     }
 }
