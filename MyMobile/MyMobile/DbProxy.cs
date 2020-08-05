@@ -5,104 +5,101 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using SQLite;
 
 namespace MyMobile
 {
     public class DbProxy
     {
-        public static List<Avtomat> Avtomats;
-        public static List<Ingredient> Ingridients;
-        public static void SaveData(Record record)
+        SQLiteConnection database;
+
+        public DbProxy(string databasePath)
         {
-
-            var fileName = $"{record.Date.Replace('/', '_')}_{Avtomats.First(c => c.Id == record.Avtomat).Value.Replace(' ', '_')}.xml";
-            XmlSerializer serializer=new XmlSerializer(typeof(Record));
-            Stream writer = new FileStream(fileName, FileMode.Create);
-            serializer.Serialize(writer, record);
-
-
-
-
-
+            database = new SQLiteConnection(databasePath);
+            database.CreateTable<Avtomat>();
+            database.CreateTable<Ingredient>();
+            database.CreateTable<Record>();
         }
 
-        public static void LoadData()
+        public IEnumerable<Avtomat> GetAvtomats()
         {
-            Avtomats = new List<Avtomat>();
-            Ingridients = new List<Ingredient>();
-            TestData();
+            return database.Table<Avtomat>().ToList();
         }
 
-
-        static void TestData()
+        public IEnumerable<Ingredient> GetIngridients()
         {
-            Avtomats.Add(new Avtomat() {Value = "Хлебозавод"});
-            Avtomats.Add(new Avtomat() {Value = "Мираторг строитель"});
-            Avtomats.Add(new Avtomat() {Value = "Площадь Василевского"});
-            Avtomats.Add(new Avtomat() {Value = "Дом профсоюзов"});
-            Avtomats.Add(new Avtomat() {Value = "Бау Мосиев"});
-            Avtomats.Add(new Avtomat() {Value = "БМК"});
-            Avtomats.Add(new Avtomat() {Value = "Мираторг лев"});
-
-            Ingridients.Add(new Ingredient(){Value = "Стаканы"});
-            Ingridients.Add(new Ingredient() { Value = "Палочки" });
-            Ingridients.Add(new Ingredient() { Value = "Сахар" });
-            Ingridients.Add(new Ingredient() { Value = "Вода" });
-            Ingridients.Add(new Ingredient() { Value = "Коф.зерн" });
-            Ingridients.Add(new Ingredient() { Value = "Сливки" });
-            Ingridients.Add(new Ingredient() { Value = "Чай" });
+            return database.Table<Ingredient>().ToList();
         }
+
+        public IEnumerable<Record> GetRecords()
+        {
+            return database.Table<Record>().ToList();
+        }
+
+        //static void TestData()
+        //{
+        //    Avtomats.Add(new Avtomat() {Value = "Хлебозавод"});
+        //    Avtomats.Add(new Avtomat() {Value = "Мираторг строитель"});
+        //    Avtomats.Add(new Avtomat() {Value = "Площадь Василевского"});
+        //    Avtomats.Add(new Avtomat() {Value = "Дом профсоюзов"});
+        //    Avtomats.Add(new Avtomat() {Value = "Бау Мосиев"});
+        //    Avtomats.Add(new Avtomat() {Value = "БМК"});
+        //    Avtomats.Add(new Avtomat() {Value = "Мираторг лев"});
+
+        //    Ingridients.Add(new Ingredient(){Value = "Стаканы"});
+        //    Ingridients.Add(new Ingredient() { Value = "Палочки" });
+        //    Ingridients.Add(new Ingredient() { Value = "Сахар" });
+        //    Ingridients.Add(new Ingredient() { Value = "Вода" });
+        //    Ingridients.Add(new Ingredient() { Value = "Коф.зерн" });
+        //    Ingridients.Add(new Ingredient() { Value = "Сливки" });
+        //    Ingridients.Add(new Ingredient() { Value = "Чай" });
+        //}
     }
 
+    
+    [Table("Avtomats")]
     public class Avtomat
     {
-        public Avtomat()
-        {
-            Id=Guid.NewGuid();
-        }
-
-
-        public Guid Id { get; set; }
+        [PrimaryKey,AutoIncrement,Column("_id")]
+        public int Id { get; set; }
 
         public string Value { get; set; }
     }
 
+    [Table("Ingredients")]
     public class Ingredient
     {
-        public Ingredient()
-        {
-            Id=Guid.NewGuid();
-
-        }
-
-        public Guid Id { get; set; }
+        [PrimaryKey, AutoIncrement, Column("_id")]
+        public int Id { get; set; }
 
         public string Value { get; set; }
 
-        public int Count { get; set; }
     }
 
+    [Table("Record")]
     public class Record
     {
-        public Record()
-        {
-            Id=Guid.NewGuid();
-        }
-        private Guid Id { get; set; }
+        [PrimaryKey, AutoIncrement, Column("_id")]
+        public int Id { get; set; }
         /// <summary>
         /// Какой автомат
         /// </summary>
-        public Guid Avtomat { get; set; }
+        public int AvtomatId { get; set; }
 
         /// <summary>
         /// Какой ингредиент
         /// </summary>
-        public Dictionary<Guid, int> Ingredients;
+        public int IngredientId { get; set; }
 
         /// <summary>
         /// Дата установки
         /// </summary>
         public string Date { get; set; }
+
+        /// <summary>
+        /// Колличество ингредиентов
+        /// </summary>
+        public int IngredientCount { get; set; }
     }
 
 }
