@@ -17,6 +17,10 @@ namespace MyMobile
         {
             InitializeComponent();
             InitializePage();
+            if (App.Database.GetAvtomats().Count() == 0)
+            {
+                CreateTestData();
+            }
         }
 
         void InitializePage()
