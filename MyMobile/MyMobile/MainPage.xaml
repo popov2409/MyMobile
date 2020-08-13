@@ -25,6 +25,7 @@
                     <Image></Image>
                     <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" BackgroundColor="Gray" Margin="3" FontSize="16" TextColor="White" FontAttributes="Bold" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
                     <!--<Image Source="search" Grid.Column="1" Margin="2" />-->
+                    <Button x:Name="ReportButton" Grid.Column="1" Margin="2" Text="R" Clicked="ReportButton_OnClicked"></Button>
                 </Grid>
 
 
@@ -49,7 +50,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <DatePicker x:Name="DatePicker" Grid.Row="0" BackgroundColor="Black" TextColor="White" FontSize="20" HorizontalOptions="End"  Format="dd/M/yyyy"/>
+                <DatePicker x:Name="InputDatePicker" Grid.Row="0" BackgroundColor="Black" TextColor="White" FontSize="20" HorizontalOptions="End"  Format="dd/M/yyyy"/>
                 <Label x:Name="AvtomatNameLabel" Grid.Row="1" Text="cc" TextColor="DarkOrange" Margin="10,0,0,0" FontSize="24" VerticalOptions="FillAndExpand"/>
                 <ListView x:Name="IngredientListView" Grid.Row="2" Margin="20,0,0,0">
                     <ListView.ItemTemplate>

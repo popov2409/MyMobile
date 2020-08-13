@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace MyMobile
 {
@@ -30,16 +31,44 @@ namespace MyMobile
             return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
-        public IEnumerable<Ingredient> GetReport(DateTime startDate, DateTime endDate)
+        public List<string> GetReport(DateTime startDate, DateTime endDate)
         {
-            IEnumerable<Ingredient> result = App.Database.GetIngridients();
-            foreach (Ingredient ingredient in result)
+            List<string> result=new List<string>();
+            IEnumerable<Ingredient> res = App.Database.GetIngridients();
+            foreach (Ingredient ingredient in res)
             {
                 ingredient.Count= App.Database.GetRecords()
                     .Where(c =>c.IngredientId==ingredient.Id&& DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).Sum(c=>c.IngredientId);
+                result.Add(ingredient.Value+"#"+ingredient.Count);
+            }
+            return result;
+        }
+
+        public void SendReport(DateTime startDate, DateTime endDate)
+        {
+            List<string> report = GetReport(startDate, endDate);
+            string text = "";
+            foreach (string s in report)
+            {
+                text += s + "$";
             }
 
-            return result;
+            SaveTextAsync(text);
+
+            var message = new EmailMessage
+            {
+                Subject = "popov_ta@mail.ru",
+                Body = "World",
+            };
+
+            
+            var file = Path.Combine(FileSystem.CacheDirectory, REPORT_FILE_NAME);
+            File.WriteAllText(file, "Hello World");
+
+            message.Attachments.Add(new EmailAttachment(file));
+
+            Email.ComposeAsync(message);
+
         }
     }
 }

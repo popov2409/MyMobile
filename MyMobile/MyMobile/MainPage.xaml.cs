@@ -68,37 +68,49 @@ namespace MyMobile
             if ((sender as Entry).Text.Trim().Length == 0) (sender as Entry).Text = "0";
         }
 
-        private Ingredient selIngedient;
 
         private void SaveButton_OnClicked(object sender, EventArgs e)
         {
-            //Record rec = new Record() {Avtomat = selectedAvtomat.Id, Date = DatePicker.Date.ToShortDateString()};
-            //Dictionary<Guid, int> dictionary = new Dictionary<Guid, int>();
-            //foreach (Ingredient ingridient in DbProxy.Ingridients)
-            //{
-            //    dictionary.Add(ingridient.Id, ingridient.Count);
-            //}
-            //rec.Ingredients = dictionary;
-            //DbProxy.SaveData(rec);
+            foreach (Ingredient ingredient in IngredientListView.ItemsSource)
+            {
+                Record rec = new Record
+                {
+                    Date = InputDatePicker.Date.ToShortDateString(),
+                    AvtomatId = selectedAvtomat.Id,
+                    IngredientId = ingredient.Id,
+                    IngredientCount = ingredient.Count
+                };
+                App.Database.SaveItem(rec);
+            }
         }
+
+        private string[] TestAvtomats = { "Хлебозавод", "Мираторг строитель", "Площадь Василевского", "Дом профсоюзов", "Бау Мосиев" , "Мираторг лев" };
+        private string[] TestIngredients = {"Стаканы", "Палочки", "Сахар", "Вода", "Коф.зерн", "Сливки", "Чай"};
 
         void CreateTestData()
         {
-            App.Database.SaveItem(new Avtomat() {Value = "Хлебозавод"});
-            App.Database.SaveItem(new Avtomat() { Value = "Мираторг строитель" });
-            App.Database.SaveItem(new Avtomat() { Value = "Площадь Василевского" });
-            App.Database.SaveItem(new Avtomat() { Value = "Дом профсоюзов" }); 
-            App.Database.SaveItem(new Avtomat() { Value = "Бау Мосиев" });
-            App.Database.SaveItem(new Avtomat() { Value = "Мираторг лев" });
+            foreach (string testAvtomat in TestAvtomats)
+            {
+                App.Database.SaveItem(new Avtomat()
+                {
+                    Value = testAvtomat
+                });
+            }
 
-                
-            App.Database.SaveItem(new Ingredient() { Value = "Стаканы" });
-            App.Database.SaveItem(new Ingredient() { Value = "Палочки" });
-            App.Database.SaveItem(new Ingredient() { Value = "Сахар" });
-            App.Database.SaveItem(new Ingredient() { Value = "Вода" });
-            App.Database.SaveItem(new Ingredient() { Value = "Коф.зерн" });
-            App.Database.SaveItem(new Ingredient() { Value = "Сливки" });
-            App.Database.SaveItem(new Ingredient() { Value = "Чай" });
+            foreach (string testAvtomat in TestIngredients)
+            {
+                App.Database.SaveItem(new Ingredient()
+                {
+                    Value = testAvtomat
+                });
+            }
+
+
+        }
+
+        private void ReportButton_OnClicked(object sender, EventArgs e)
+        {
+            App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
         }
     }
 }

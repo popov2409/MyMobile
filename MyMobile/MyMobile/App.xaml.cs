@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -8,8 +10,11 @@ namespace MyMobile
     public partial class App : Application
     {
 
-        public const string DATABASE_NAME = "mainbase.db";
-        public static DbProxy database;
+        private const string DATABASE_NAME = "mainbase.db";
+        private static DbProxy database;
+
+        private static Reporter report;
+
         public static DbProxy Database
         {
             get
@@ -23,6 +28,8 @@ namespace MyMobile
                 return database;
             }
         }
+
+        public static Reporter Report => report ?? (report = new Reporter());
 
         public App()
         {
