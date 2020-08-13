@@ -38,7 +38,7 @@ namespace MyMobile
             foreach (Ingredient ingredient in res)
             {
                 ingredient.Count= App.Database.GetRecords()
-                    .Where(c =>c.IngredientId==ingredient.Id&& DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).Sum(c=>c.IngredientId);
+                    .Where(c =>c.IngredientId==ingredient.Id&& DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).Sum(c=>c.IngredientCount);
                 result.Add(ingredient.Value+"#"+ingredient.Count);
             }
             return result;
@@ -53,7 +53,7 @@ namespace MyMobile
                 text += s + "$";
             }
 
-            SaveTextAsync(text);
+            //SaveTextAsync(text);
 
             var message = new EmailMessage
             {
@@ -63,7 +63,7 @@ namespace MyMobile
 
             
             var file = Path.Combine(FileSystem.CacheDirectory, REPORT_FILE_NAME);
-            File.WriteAllText(file, "Hello World");
+            File.WriteAllText(file, text);
 
             message.Attachments.Add(new EmailAttachment(file));
 
