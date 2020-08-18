@@ -5,31 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using System.Xml.Serialization;
 
 namespace MyMobile
 {
     public class Reporter
     {
-        private string REPORT_FILE_NAME = "report.txt";
-
-        public async Task SaveTextAsync(string text)
-        {
-            string filepath = GetFilePath();
-            using (StreamWriter writer = File.CreateText(filepath))
-            {
-                await writer.WriteAsync(text);
-            }
-        }
-        // вспомогательный метод для построения пути к файлу
-        string GetFilePath()
-        {
-            return Path.Combine(GetDocsPath(), REPORT_FILE_NAME);
-        }
-        // получаем путь к папке MyDocuments
-        string GetDocsPath()
-        {
-            return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        }
 
         public List<string> GetReport(DateTime startDate, DateTime endDate)
         {
@@ -57,18 +38,40 @@ namespace MyMobile
 
             var message = new EmailMessage
             {
-                Subject = "popov_ta@mail.ru",
-                Body = "World",
+                Subject = "",
+                Body = "",
+                To = {""}
             };
 
             
-            var file = Path.Combine(FileSystem.CacheDirectory, REPORT_FILE_NAME);
+            var file = Path.Combine(FileSystem.CacheDirectory, $"report_{DateTime.Now.ToShortDateString()}.txt");
             File.WriteAllText(file, text);
 
             message.Attachments.Add(new EmailAttachment(file));
 
             Email.ComposeAsync(message);
 
+        }
+
+        public void SendXmlReport(DateTime startDate, DateTime endDate)
+        {
+            List<Record> records = App.Database.GetRecords()
+                .Where(c => DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).ToList();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Record>));
+            var file = Path.Combine(FileSystem.CacheDirectory, $"report_{DateTime.Now.ToShortDateString()}.txt");
+            using (Stream stream=File.Create(file))
+            {
+                var message = new EmailMessage
+                {
+                    Subject = "",
+                    Body = "",
+                    To = { "" }
+                };
+                
+                serializer.Serialize(stream,records);
+                message.Attachments.Add(new EmailAttachment(file));
+                Email.ComposeAsync(message);
+            }
         }
     }
 }

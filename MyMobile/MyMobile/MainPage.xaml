@@ -5,13 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="MyMobile.MainPage">
-    <StackLayout x:Name="BaseLayout" BackgroundColor="Black">
+    <StackLayout x:Name="BaseLayout">
         <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid x:Name="AvtomatGrid" Grid.Row="1" IsVisible="True">
+            <Grid x:Name="AvtomatGrid" Grid.Row="1" IsVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition/>
@@ -23,35 +23,42 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Image></Image>
-                    <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" BackgroundColor="Gray" Margin="3" FontSize="16" TextColor="White" FontAttributes="Bold" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
+                    <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" Margin="3" FontSize="16" FontAttributes="Bold" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
                     <!--<Image Source="search" Grid.Column="1" Margin="2" />-->
                     <Button x:Name="ReportButton" Grid.Column="1" Margin="2" Text="R" Clicked="ReportButton_OnClicked"></Button>
                 </Grid>
 
 
-                <ListView x:Name="AvtomatListView" Grid.Row="1">
+                <ListView x:Name="AvtomatListView" Grid.Row="1" ItemSelected="AvtomatListView_OnItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                        <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="White" VerticalTextAlignment="Center"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="22" VerticalTextAlignment="Center"/>
+
+                                        <Label Grid.Column="1" Text=">  " FontSize="22" VerticalTextAlignment="Center" />
+                                    </Grid>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button x:Name="InputDataButton" Margin="2" Grid.Row="2" Text="ВВОД ДАННЫХ" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="InputDataButton_OnClicked"/>
             </Grid>
 
-            <Grid x:Name="InputDataGrid" Grid.Row="1" IsVisible="False">
+            <Grid x:Name="InputDataGrid" Grid.Row="1" IsVisible="True">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <DatePicker x:Name="InputDatePicker" Grid.Row="0" BackgroundColor="Black" TextColor="White" FontSize="20" HorizontalOptions="End"  Format="dd/M/yyyy"/>
-                <Label x:Name="AvtomatNameLabel" Grid.Row="1" Text="cc" TextColor="DarkOrange" Margin="10,0,0,0" FontSize="24" VerticalOptions="FillAndExpand"/>
+                <DatePicker x:Name="InputDatePicker" Grid.Row="0" FontSize="20" HorizontalOptions="End"  Format="dd/M/yyyy"/>
+                <Label x:Name="AvtomatNameLabel" Grid.Row="1" Text="cc" Margin="10,0,0,0" TextColor="Black" FontSize="26" VerticalOptions="FillAndExpand"/>
                 <ListView x:Name="IngredientListView" Grid.Row="2" Margin="20,0,0,0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -60,26 +67,19 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="70"/>
                                         </Grid.ColumnDefinitions>
-                                        <Stepper Grid.Column="2" x:Name="Stepper" Minimum="0" Maximum="9999" Value="{Binding Path=Count}"/>
-                                        <Label Grid.Column="0" TextColor="White" FontSize="20" Text="{Binding Path=Value}" VerticalOptions="Center"/>
-                                        <Entry Grid.Column="1" TextColor="White" FontSize="20" Text="{Binding Source={x:Reference Stepper}, Path=Value}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Keyboard="Numeric" Unfocused="VisualElement_OnUnfocused"/>
+                                        <!--<Stepper Grid.Column="2" x:Name="Stepper" Minimum="0" Maximum="9999" Value="{Binding Path=Count}"/>-->
+                                        <Label Grid.Column="0" FontSize="22" Text="{Binding Path=Value}" VerticalOptions="Center"/>
+                                        <!--<Entry Grid.Column="1" TextColor="White" FontSize="20" Text="{Binding Source={x:Reference Stepper}, Path=Value}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Keyboard="Numeric" Unfocused="VisualElement_OnUnfocused"/>-->
+                                        <Entry Grid.Column="1" FontSize="22" Text="{Binding Path=Count}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Keyboard="Chat" Unfocused="VisualElement_OnUnfocused"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Grid Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="BackButton" Grid.Column="0" Margin="1"  Text="НАЗАД" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="BackButton_OnClicked"/>
-                    <Button x:Name="SaveButton" Grid.Column="1" Margin="1"  Text="СОХРАНИТЬ" TextColor="DarkOrange" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
-                </Grid>
+                <Button Grid.Row="3" x:Name="SaveButton" Margin="1"  Text="СОХРАНИТЬ" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
             </Grid>
 
 
@@ -100,10 +100,12 @@
 
 
             
-            <Label Grid.Row="0" HorizontalOptions="FillAndExpand" Text="Автоматы" BackgroundColor="DarkOrange" HorizontalTextAlignment="Center" FontSize="24" TextColor="White" VerticalTextAlignment="Center"/>
             
+            <Label x:Name="HeaderLabel" Grid.Row="0" HorizontalOptions="FillAndExpand" Text="Автоматы" BackgroundColor="Gainsboro" HorizontalTextAlignment="Center" FontSize="24" VerticalTextAlignment="Center"/>
 
-            
+            <!--<Button x:Name="BackButton" Grid.Row="0" IsVisible="False" Text="" HorizontalOptions="Start" Clicked="BackButton_OnClicked" />-->
+
+
         </Grid>
         <!-- Place new controls here -->
     </StackLayout>

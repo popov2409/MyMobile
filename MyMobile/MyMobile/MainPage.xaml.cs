@@ -17,10 +17,20 @@ namespace MyMobile
         {
             InitializeComponent();
             InitializePage();
-            if (App.Database.GetAvtomats().Count() == 0)
+            if (!App.Database.GetAvtomats().Any())
             {
                 CreateTestData();
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (selectedAvtomat != null)
+            {
+                InitializePage();
+                return true;
+            }
+            return base.OnBackButtonPressed();
         }
 
         void InitializePage()
@@ -34,28 +44,14 @@ namespace MyMobile
             IngredientListView.ItemsSource = App.Database.GetIngridients().OrderBy(c => c.Value);
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().OrderBy(c => c.Value);
             selectedAvtomat = null;
+            HeaderLabel.Text = "Автоматы";
+            //BackButton.Text = "<-";
         }
 
 
         private void AvtomatSearchEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
-        }
-
-
-        private Avtomat selectedAvtomat;
-        private void InputDataButton_OnClicked(object sender, EventArgs e)
-        {
-            if (AvtomatListView.SelectedItem == null)
-            {
-                DisplayAlert("Уведомление", "Не выбран автомат!", "OK");
-                return;
-            }
-
-            AvtomatGrid.IsVisible = false;
-            InputDataGrid.IsVisible = true;
-            selectedAvtomat = AvtomatListView.SelectedItem as Avtomat;
-            AvtomatNameLabel.Text = selectedAvtomat.Value;
         }
 
         private void BackButton_OnClicked(object sender, EventArgs e)
@@ -67,7 +63,6 @@ namespace MyMobile
         {
             if ((sender as Entry).Text.Trim().Length == 0) (sender as Entry).Text = "0";
         }
-
 
         private void SaveButton_OnClicked(object sender, EventArgs e)
         {
@@ -82,6 +77,7 @@ namespace MyMobile
                 };
                 App.Database.SaveItem(rec);
             }
+            InitializePage();
         }
 
         private string[] TestAvtomats = { "Хлебозавод", "Мираторг строитель", "Площадь Василевского", "Дом профсоюзов", "Бау Мосиев" , "Мираторг лев" };
@@ -110,7 +106,25 @@ namespace MyMobile
 
         private void ReportButton_OnClicked(object sender, EventArgs e)
         {
-            App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
+            //App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
+            App.Report.SendXmlReport(DateTime.MinValue, DateTime.MaxValue);
+        }
+        private Avtomat selectedAvtomat;
+
+        private void AvtomatListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (AvtomatListView.SelectedItem == null)
+            {
+                DisplayAlert("Уведомление", "Не выбран автомат!", "OK");
+                return;
+            }
+
+            AvtomatGrid.IsVisible = false;
+            InputDataGrid.IsVisible = true;
+            selectedAvtomat = AvtomatListView.SelectedItem as Avtomat;
+            AvtomatNameLabel.Text = selectedAvtomat.Value;
+            HeaderLabel.Text = "Ингредиенты";
+
         }
     }
 }
