@@ -16,11 +16,12 @@ namespace MyMobile
         {
             List<string> result=new List<string>();
             IEnumerable<Ingredient> res = App.Database.GetIngridients();
-            foreach (Ingredient ingredient in res)
+            List<Record> records = App.Database.GetRecords()
+                .Where(c => DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).ToList();
+            foreach (Record record in records)
             {
-                ingredient.Count= App.Database.GetRecords()
-                    .Where(c =>c.IngredientId==ingredient.Id&& DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).Sum(c=>c.IngredientCount);
-                result.Add(ingredient.Value+"#"+ingredient.Count);
+                result.Add(
+                    $"{record.Id}#{record.Date}#{record.AvtomatId}#{record.IngredientId}#{record.IngredientCount}");
             }
             return result;
         }
@@ -28,11 +29,7 @@ namespace MyMobile
         public void SendReport(DateTime startDate, DateTime endDate)
         {
             List<string> report = GetReport(startDate, endDate);
-            string text = "";
-            foreach (string s in report)
-            {
-                text += s + "$";
-            }
+            
 
             //SaveTextAsync(text);
 
@@ -43,35 +40,19 @@ namespace MyMobile
                 To = {""}
             };
 
-            
+            string result = "";
             var file = Path.Combine(FileSystem.CacheDirectory, $"report_{DateTime.Now.ToShortDateString()}.txt");
-            File.WriteAllText(file, text);
+            foreach (string s in report)
+            {
+                result += s + ";";
+            }
+
+            File.WriteAllText(file, result);
 
             message.Attachments.Add(new EmailAttachment(file));
 
             Email.ComposeAsync(message);
 
-        }
-
-        public void SendXmlReport(DateTime startDate, DateTime endDate)
-        {
-            List<Record> records = App.Database.GetRecords()
-                .Where(c => DateTime.Parse(c.Date) >= startDate && DateTime.Parse(c.Date) <= endDate).ToList();
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Record>));
-            var file = Path.Combine(FileSystem.CacheDirectory, $"report_{DateTime.Now.ToShortDateString()}.txt");
-            using (Stream stream=File.Create(file))
-            {
-                var message = new EmailMessage
-                {
-                    Subject = "",
-                    Body = "",
-                    To = { "" }
-                };
-                
-                serializer.Serialize(stream,records);
-                message.Attachments.Add(new EmailAttachment(file));
-                Email.ComposeAsync(message);
-            }
         }
     }
 }

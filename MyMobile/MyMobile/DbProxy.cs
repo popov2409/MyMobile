@@ -156,6 +156,11 @@ namespace MyMobile
         /// Колличество ингредиентов
         /// </summary>
         public int IngredientCount { get; set; }
+
+        ///// <summary>
+        ///// Отправлено в отчет
+        ///// </summary>
+        //public bool IsSend { get; set; }
     }
 
 }

@@ -64,8 +64,12 @@ namespace MyMobile
             if ((sender as Entry).Text.Trim().Length == 0) (sender as Entry).Text = "0";
         }
 
-        private void SaveButton_OnClicked(object sender, EventArgs e)
+        private async void SaveButton_OnClicked(object sender, EventArgs e)
         {
+
+            bool result = await DisplayAlert("Сохранение", "Сохранить данные?", "Да", "Нет");
+            if(!result) return;
+
             foreach (Ingredient ingredient in IngredientListView.ItemsSource)
             {
                 Record rec = new Record
@@ -73,7 +77,7 @@ namespace MyMobile
                     Date = InputDatePicker.Date.ToShortDateString(),
                     AvtomatId = selectedAvtomat.Id,
                     IngredientId = ingredient.Id,
-                    IngredientCount = ingredient.Count
+                    IngredientCount = ingredient.Count,
                 };
                 App.Database.SaveItem(rec);
             }
@@ -106,8 +110,7 @@ namespace MyMobile
 
         private void ReportButton_OnClicked(object sender, EventArgs e)
         {
-            //App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
-            App.Report.SendXmlReport(DateTime.MinValue, DateTime.MaxValue);
+            App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
         }
         private Avtomat selectedAvtomat;
 
