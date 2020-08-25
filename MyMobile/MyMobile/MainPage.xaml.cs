@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace MyMobile
             {
                 CreateTestData();
             }
+            DisplayAlert("Уведомление", ReadData(), "OK");
         }
 
         protected override bool OnBackButtonPressed()
@@ -32,6 +34,8 @@ namespace MyMobile
             }
             return base.OnBackButtonPressed();
         }
+
+        
 
         void InitializePage()
         {
@@ -128,6 +132,34 @@ namespace MyMobile
             AvtomatNameLabel.Text = selectedAvtomat.Value;
             HeaderLabel.Text = "Ингредиенты";
 
+        }
+
+
+        public string ReadData()
+        {
+            //var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "data.txt");
+            //DisplayAlert("Уведомление", backingFile, "OK");
+            //if (backingFile == null || !File.Exists(backingFile))
+            //{
+            //    DisplayAlert("Уведомление", "Не найден файл с данными", "OK");
+            //    return null;
+            //}
+
+            string line="No!";
+            //using (var reader = new StreamReader(backingFile, true))
+            try
+            {
+                using (var reader = new StreamReader("/storage/sdcard0/data.txt", true))
+                {
+                    line = reader.ReadLine();
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return line;
         }
     }
 }

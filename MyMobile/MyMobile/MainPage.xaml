@@ -50,7 +50,7 @@
                 </ListView>
             </Grid>
 
-            <Grid x:Name="InputDataGrid" Grid.Row="1" IsVisible="True">
+            <Grid x:Name="InputDataGrid" Grid.Row="1" IsVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -82,8 +82,7 @@
                 <Button Grid.Row="3" x:Name="SaveButton" Margin="1"  Text="СОХРАНИТЬ" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
             </Grid>
 
-
-            <!--<Grid x:Name="IngredienGrid" Grid.Row="1" IsVisible="False">
+                <!--<Grid x:Name="IngredienGrid" Grid.Row="1" IsVisible="False">
                 <ListView x:Name="IngredientListView" BindingContext="Value">
                     <ListView.ItemTemplate>
                         <DataTemplate>
