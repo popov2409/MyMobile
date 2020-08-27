@@ -134,10 +134,11 @@ namespace MyMobile
                     Value = s.Split(':')[1],
                     Count = 0
                 };
+                App.Database.SaveItem(i);
             }
 
 
-
+            InitializePage();
 
         }
 
