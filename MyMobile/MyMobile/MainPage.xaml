@@ -11,7 +11,7 @@
                 <RowDefinition Height="40" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid x:Name="AvtomatGrid" Grid.Row="1" IsVisible="False">
+            <Grid x:Name="AvtomatGrid" Grid.Row="1" IsVisible="True">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition/>
@@ -25,7 +25,7 @@
                     <Image></Image>
                     <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" Margin="3" FontSize="16" FontAttributes="Bold" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
                     <!--<Image Source="search" Grid.Column="1" Margin="2" />-->
-                    <Button x:Name="ReportButton" Grid.Column="1" Margin="2" Text="R" Clicked="ReportButton_OnClicked"></Button>
+                    <!--<Button x:Name="ReportButton" Grid.Column="1" Margin="2" Text="R" Clicked="ReportButton_OnClicked"></Button>-->
                 </Grid>
 
 
@@ -41,7 +41,8 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="22" VerticalTextAlignment="Center"/>
 
-                                        <Label Grid.Column="1" Text=">  " FontSize="22" VerticalTextAlignment="Center" />
+                                        <Image Source="right" Grid.Column="1" Margin="10" Opacity="0.6"></Image>
+                                        <!--<Label Grid.Column="1" Text=">  " FontSize="22" VerticalTextAlignment="Center" />-->
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>
@@ -82,22 +83,7 @@
                 <Button Grid.Row="3" x:Name="SaveButton" Margin="1"  Text="СОХРАНИТЬ" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
             </Grid>
 
-                <!--<Grid x:Name="IngredienGrid" Grid.Row="1" IsVisible="False">
-                <ListView x:Name="IngredientListView" BindingContext="Value">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <Label Text="{Binding Path=Value}" Margin="10,0,0,0" FontSize="20" TextColor="White" VerticalTextAlignment="Center"/>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
-            </Grid>-->
-
-
+              
             <Grid Grid.Row="0" VerticalOptions="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -109,7 +95,7 @@
             </Grid>
             
 
-            <!--<Button x:Name="BackButton" Grid.Row="0" IsVisible="False" Text="" HorizontalOptions="Start" Clicked="BackButton_OnClicked" />-->
+            <ImageButton x:Name="MenuButton" Grid.Row="0" IsVisible="True" HorizontalOptions="End"  Source="menu" Margin="2" Clicked="MenuButton_OnClicked"/>
 
 
         </Grid>

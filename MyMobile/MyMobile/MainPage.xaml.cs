@@ -18,11 +18,6 @@ namespace MyMobile
         {
             InitializeComponent();
             InitializePage();
-            if (!App.Database.GetAvtomats().Any())
-            {
-                CreateTestData();
-            }
-            DisplayAlert("Уведомление", ReadData(), "OK");
         }
 
         protected override bool OnBackButtonPressed()
@@ -49,7 +44,6 @@ namespace MyMobile
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().OrderBy(c => c.Value);
             selectedAvtomat = null;
             HeaderLabel.Text = "Автоматы";
-            //BackButton.Text = "<-";
         }
 
 
@@ -58,10 +52,6 @@ namespace MyMobile
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
         }
 
-        private void BackButton_OnClicked(object sender, EventArgs e)
-        {
-            InitializePage();
-        }
 
         private void VisualElement_OnUnfocused(object sender, FocusEventArgs e)
         {
@@ -112,6 +102,45 @@ namespace MyMobile
 
         }
 
+        async void ImportData()
+        {
+            string res= ReadData();
+
+            if (!res.Any())
+            {
+                DisplayAlert("Нет файла с данными!", "Скопируйте файл LIST в память телефона и повторите операцию!","Ok");
+                return;
+            }
+
+            string[] data = res.Split('#');
+            string avtomats = data[0];
+            string ingredients = data[1];
+            App.Database.ClearData();
+            foreach (string s in avtomats.Split(';'))
+            {
+                Avtomat a=new Avtomat()
+                {
+                    Id=Guid.Parse(s.Split(':')[0]),
+                    Value = s.Split(':')[1]
+                };
+                App.Database.SaveItem(a);
+            }
+
+            foreach (string s in ingredients.Split(';'))
+            {
+                Ingredient i=new Ingredient()
+                {
+                    Id = Guid.Parse(s.Split(':')[0]),
+                    Value = s.Split(':')[1],
+                    Count = 0
+                };
+            }
+
+
+
+
+        }
+
         private void ReportButton_OnClicked(object sender, EventArgs e)
         {
             App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
@@ -137,21 +166,12 @@ namespace MyMobile
 
         public string ReadData()
         {
-            //var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "data.txt");
-            //DisplayAlert("Уведомление", backingFile, "OK");
-            //if (backingFile == null || !File.Exists(backingFile))
-            //{
-            //    DisplayAlert("Уведомление", "Не найден файл с данными", "OK");
-            //    return null;
-            //}
-
-            string line="No!";
-            //using (var reader = new StreamReader(backingFile, true))
+            string result="";
             try
             {
-                using (var reader = new StreamReader("/storage/sdcard0/data.txt", true))
+                using (var reader = new StreamReader("/storage/sdcard0/LIST.txt", true))
                 {
-                    line = reader.ReadLine();
+                    result = reader.ReadLine();
                 }
             }
             catch
@@ -159,7 +179,12 @@ namespace MyMobile
                 // ignored
             }
 
-            return line;
+            return result;
+        }
+
+        private void MenuButton_OnClicked(object sender, EventArgs e)
+        {
+            ImportData();
         }
     }
 }

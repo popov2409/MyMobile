@@ -41,12 +41,12 @@ namespace MyMobile
             }
         } 
 
-        public Avtomat GetAvtomat(int id)
+        public Avtomat GetAvtomat(Guid id)
         {
             return database.Get<Avtomat>(id);
         }
 
-        public Ingredient GetIngredient(int id)
+        public Ingredient GetIngredient(Guid id)
         {
             return database.Get<Ingredient>(id);
         }
@@ -61,33 +61,32 @@ namespace MyMobile
             return database.Table<Record>().ToList();
         }
 
+        public void ClearData()
+        {
+            foreach (Avtomat avtomat in GetAvtomats())
+            {
+                database.Delete<Avtomat>(avtomat.Id);
+            }
+
+            foreach (Record record in GetRecords())
+            {
+                database.Delete<Record>(record.Id);
+            }
+
+            foreach (Ingredient ingridient in GetIngridients())
+            {
+                database.Delete<Ingredient>(ingridient.Id);
+            }
+        }
+
         /// <summary>
         /// Сохранение данных
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public int SaveItem(Object item)
+        public void SaveItem(Object item)
         {
-            switch (item)
-            {
-                case Avtomat avtomat when avtomat.Id != 0:
-                    database.Update(avtomat);
-                    return avtomat.Id;
-                case Avtomat avtomat:
-                    return database.Insert(avtomat);
-                case Ingredient ingredient when ingredient.Id != 0:
-                    database.Update(ingredient);
-                    return ingredient.Id;
-                case Ingredient ingredient:
-                    return database.Insert(ingredient);
-                case Record record when record.Id != 0:
-                    database.Update(record);
-                    return record.Id;
-                case Record record:
-                    return database.Insert(record);
-                default:
-                    return 0;
-            }
+            database.Insert(item);
         }
 
        
@@ -115,8 +114,7 @@ namespace MyMobile
     [Table("Avtomats")]
     public class Avtomat
     {
-        [PrimaryKey,AutoIncrement,Column("_id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Value { get; set; }
     }
@@ -124,8 +122,7 @@ namespace MyMobile
     [Table("Ingredients")]
     public class Ingredient
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Value { get; set; }
 
@@ -135,17 +132,16 @@ namespace MyMobile
     [Table("Record")]
     public class Record
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Какой автомат
         /// </summary>
-        public int AvtomatId { get; set; }
+        public Guid AvtomatId { get; set; }
 
         /// <summary>
         /// Какой ингредиент
         /// </summary>
-        public int IngredientId { get; set; }
+        public Guid IngredientId { get; set; }
 
         /// <summary>
         /// Дата установки
