@@ -24,8 +24,6 @@
                     </Grid.ColumnDefinitions>
                     <Image></Image>
                     <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" Margin="3" FontSize="16" FontAttributes="Bold" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
-                    <!--<Image Source="search" Grid.Column="1" Margin="2" />-->
-                    <!--<Button x:Name="ReportButton" Grid.Column="1" Margin="2" Text="R" Clicked="ReportButton_OnClicked"></Button>-->
                 </Grid>
 
 
@@ -83,6 +81,8 @@
                 <Button Grid.Row="3" x:Name="SaveButton" Margin="1"  Text="СОХРАНИТЬ" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
             </Grid>
 
+            
+
               
             <Grid Grid.Row="0" VerticalOptions="Center">
                 <Grid.ColumnDefinitions>
@@ -93,10 +93,19 @@
 
 
             </Grid>
+
+            <Grid x:Name="MenuGrid" Grid.Row="0" HorizontalOptions="End" IsVisible="False" VerticalOptions="Start" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="ReportButton" Grid.Row="1" Text="Отправить отчет" Clicked="ReportButton_OnClicked" ></Button>
+                <Button x:Name="ImportDataButton" Grid.Row="2" Text="Загрузить данные" Clicked="ImportDataButton_OnClicked" ></Button>
+            </Grid>
+            <ImageButton x:Name="MenuButton" Grid.Row="0" HorizontalOptions="End"  Source="menu" Margin="2" Clicked="MenuButton_OnClicked"/>
             
-
-            <ImageButton x:Name="MenuButton" Grid.Row="0" IsVisible="True" HorizontalOptions="End"  Source="menu" Margin="2" Clicked="MenuButton_OnClicked"/>
-
 
         </Grid>
         <!-- Place new controls here -->

@@ -145,6 +145,7 @@ namespace MyMobile
         private void ReportButton_OnClicked(object sender, EventArgs e)
         {
             App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
+            MenuGrid.IsVisible = false;
         }
         private Avtomat selectedAvtomat;
 
@@ -183,9 +184,19 @@ namespace MyMobile
             return result;
         }
 
+        private bool menuVisible;
         private void MenuButton_OnClicked(object sender, EventArgs e)
         {
-            ImportData();
+            MenuGrid.IsVisible = !MenuGrid.IsVisible;
         }
+
+
+        private void ImportDataButton_OnClicked(object sender, EventArgs e)
+        {
+            ImportData();
+            MenuGrid.IsVisible = false;
+        }
+
+     
     }
 }

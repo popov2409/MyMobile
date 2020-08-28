@@ -156,7 +156,7 @@ namespace MyMobile
         ///// <summary>
         ///// Отправлено в отчет
         ///// </summary>
-        //public bool IsSend { get; set; }
+        public bool IsSend { get; set; }
     }
 
 }
