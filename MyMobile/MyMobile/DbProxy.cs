@@ -44,6 +44,12 @@ namespace MyMobile
 
         public UserInfo GetUserInfo()
         {
+            List<UserInfo> ui = database.Table<UserInfo>().ToList();
+            if (ui.Count == 0)
+            {
+                return null;
+            }
+
             return database.Table<UserInfo>().ToList()[0];
         }
 
@@ -95,7 +101,7 @@ namespace MyMobile
                 database.Delete<Ingredient>(ingridient.Id);
             }
 
-            database.Delete<UserInfo>(GetUserInfo());
+            if(GetUserInfo()!=null) database.Delete<UserInfo>(GetUserInfo());
         }
 
         public void DropTables()

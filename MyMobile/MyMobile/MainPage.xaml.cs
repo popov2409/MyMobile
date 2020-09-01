@@ -43,7 +43,9 @@ namespace MyMobile
             IngredientListView.ItemsSource = App.Database.GetIngridients().OrderBy(c => c.Value);
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().OrderBy(c => c.Value);
             selectedAvtomat = null;
-            HeaderLabel.Text = $"Автоматы({App.Database.GetUserInfo().Name})";
+            var cc = App.Database.GetUserInfo();
+            var d = cc != null ? $"({cc.Name})" : "";
+            HeaderLabel.Text = $"Автоматы{d}";
         }
 
 
