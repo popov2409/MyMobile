@@ -12,7 +12,7 @@ namespace MyMobile
     public class Reporter
     {
 
-        public List<string> GetReport(DateTime startDate, DateTime endDate)
+        private static List<string> GetReport(DateTime startDate, DateTime endDate)
         {
             List<string> result=new List<string>();
             IEnumerable<Ingredient> res = App.Database.GetIngridients();
@@ -21,12 +21,14 @@ namespace MyMobile
             foreach (Record record in records)
             {
                 result.Add(
-                    $"{record.Id}#{record.Date}#{record.AvtomatId}#{record.IngredientId}#{record.IngredientCount}");
+                    $"{record.Id}:{record.Date}:{record.AvtomatId}:{record.IngredientId}:{record.IngredientCount}");
+                record.IsSend = true;
+                App.Database.UpdateItem(record);
             }
             return result;
         }
 
-        public void SendReport(DateTime startDate, DateTime endDate)
+        public static void SendReport(DateTime startDate, DateTime endDate)
         {
             List<string> report = GetReport(startDate, endDate);
             
@@ -40,8 +42,8 @@ namespace MyMobile
                 To = {""}
             };
 
-            string result = "";
-            var file = Path.Combine(FileSystem.CacheDirectory, $"report_{DateTime.Now.ToShortDateString()}.txt");
+            string result = $"{App.Database.GetUserInfo().Id}#";
+            var file = Path.Combine(FileSystem.CacheDirectory, $"report_{DateTime.Now.ToShortDateString().Replace('/','_')}.txt");
             foreach (string s in report)
             {
                 result += s + ";";

@@ -43,7 +43,7 @@ namespace MyMobile
             IngredientListView.ItemsSource = App.Database.GetIngridients().OrderBy(c => c.Value);
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().OrderBy(c => c.Value);
             selectedAvtomat = null;
-            HeaderLabel.Text = "Автоматы";
+            HeaderLabel.Text = $"Автоматы({App.Database.GetUserInfo().Name})";
         }
 
 
@@ -66,8 +66,10 @@ namespace MyMobile
 
             foreach (Ingredient ingredient in IngredientListView.ItemsSource)
             {
+                if(ingredient.Count==0) continue;
                 Record rec = new Record
                 {
+                    Id=Guid.NewGuid(),
                     Date = InputDatePicker.Date.ToShortDateString(),
                     AvtomatId = selectedAvtomat.Id,
                     IngredientId = ingredient.Id,
@@ -80,13 +82,26 @@ namespace MyMobile
 
         private string[] TestAvtomats = { "Хлебозавод", "Мираторг строитель", "Площадь Василевского", "Дом профсоюзов", "Бау Мосиев" , "Мираторг лев" };
         private string[] TestIngredients = {"Стаканы", "Палочки", "Сахар", "Вода", "Коф.зерн", "Сливки", "Чай"};
+        private UserInfo UserTest;
+
 
         void CreateTestData()
         {
+            UserTest =new UserInfo()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Иван",
+                RoleName = 7,
+                Password = ""
+            };
+            App.Database.SaveItem(UserTest);
+
+
             foreach (string testAvtomat in TestAvtomats)
             {
                 App.Database.SaveItem(new Avtomat()
                 {
+                    Id = Guid.NewGuid(),
                     Value = testAvtomat
                 });
             }
@@ -95,14 +110,13 @@ namespace MyMobile
             {
                 App.Database.SaveItem(new Ingredient()
                 {
+                    Id = Guid.NewGuid(),
                     Value = testAvtomat
                 });
             }
-
-
         }
 
-        async void ImportData()
+        void ImportData()
         {
             string res= ReadData();
 
@@ -115,6 +129,7 @@ namespace MyMobile
             string[] data = res.Split('#');
             string avtomats = data[0];
             string ingredients = data[1];
+            string[] userInfo = data[2].Split(':');
             App.Database.ClearData();
             foreach (string s in avtomats.Split(';'))
             {
@@ -138,15 +153,19 @@ namespace MyMobile
             }
 
 
+            UserInfo user = new UserInfo()
+            {
+                Id=Guid.Parse(userInfo[0]),
+                Name = userInfo[1],
+                Password = userInfo[2],
+                RoleName = int.Parse(userInfo[3])
+            };
+
             InitializePage();
 
         }
 
-        private void ReportButton_OnClicked(object sender, EventArgs e)
-        {
-            App.Report.SendReport(DateTime.MinValue, DateTime.MaxValue);
-            MenuGrid.IsVisible = false;
-        }
+        
         private Avtomat selectedAvtomat;
 
         private void AvtomatListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -184,7 +203,7 @@ namespace MyMobile
             return result;
         }
 
-        private bool menuVisible;
+        
         private void MenuButton_OnClicked(object sender, EventArgs e)
         {
             MenuGrid.IsVisible = !MenuGrid.IsVisible;
@@ -197,6 +216,40 @@ namespace MyMobile
             MenuGrid.IsVisible = false;
         }
 
-     
+        private void ReportViewButton_OnClicked(object sender, EventArgs e)
+        {
+            MenuGrid.IsVisible = false;
+            List<Record> records = App.Database.GetRecords().ToList();
+            if (records.Count == 0)
+            {
+                DisplayAlert("Уведомление", "Нет данных для отправки!", "OK");
+                return;
+            }
+
+            if (records.Count(c => !c.IsSend) == 0)
+            {
+                DisplayAlert("Уведомление", "Все данные в базе были отправлены оператору!", "OK");
+
+            }
+            else
+            {
+                StartDatePicker.Date = records.Where(c => !c.IsSend).Min(c => DateTime.Parse(c.Date));
+                EndDatePicker.Date = records.Where(c => !c.IsSend).Max(c => DateTime.Parse(c.Date));
+            }
+            
+            ReportGrid.IsVisible = true;
+            
+        }
+
+        private void SendReportButton_OnClicked(object sender, EventArgs e)
+        {
+            Reporter.SendReport(StartDatePicker.Date,EndDatePicker.Date);
+            ReportGrid.IsVisible = false;
+        }
+
+        private void CancelReportButton_OnClicked(object sender, EventArgs e)
+        {
+            ReportGrid.IsVisible = false;
+        }
     }
 }

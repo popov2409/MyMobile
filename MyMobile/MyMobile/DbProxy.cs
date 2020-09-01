@@ -19,6 +19,7 @@ namespace MyMobile
             database.CreateTable<Avtomat>();
             database.CreateTable<Ingredient>();
             database.CreateTable<Record>();
+            database.CreateTable<UserInfo>();
         }
 
         public IEnumerable<Avtomat> GetAvtomats()
@@ -39,7 +40,12 @@ namespace MyMobile
                 default:
                     return 0;
             }
-        } 
+        }
+
+        public UserInfo GetUserInfo()
+        {
+            return database.Table<UserInfo>().ToList()[0];
+        }
 
         public Avtomat GetAvtomat(Guid id)
         {
@@ -61,6 +67,20 @@ namespace MyMobile
             return database.Table<Record>().ToList();
         }
 
+        public void UpdateItem(object item)
+        {
+            database.Update(item);
+        }
+
+        public void ClearRecords()
+        {
+            foreach (Record record in GetRecords())
+            {
+                database.Delete<Record>(record.Id);
+            }
+        }
+
+
         public void ClearData()
         {
             foreach (Avtomat avtomat in GetAvtomats())
@@ -68,15 +88,22 @@ namespace MyMobile
                 database.Delete<Avtomat>(avtomat.Id);
             }
 
-            foreach (Record record in GetRecords())
-            {
-                database.Delete<Record>(record.Id);
-            }
+           
 
             foreach (Ingredient ingridient in GetIngridients())
             {
                 database.Delete<Ingredient>(ingridient.Id);
             }
+
+            database.Delete<UserInfo>(GetUserInfo());
+        }
+
+        public void DropTables()
+        {
+            database.DropTable<Avtomat>();
+            database.DropTable<Ingredient>();
+            database.DropTable<Record>();
+            database.DropTable<UserInfo>();
         }
 
         /// <summary>
@@ -114,6 +141,7 @@ namespace MyMobile
     [Table("Avtomats")]
     public class Avtomat
     {
+        [PrimaryKey, Column("_id")]
         public Guid Id { get; set; }
 
         public string Value { get; set; }
@@ -122,6 +150,7 @@ namespace MyMobile
     [Table("Ingredients")]
     public class Ingredient
     {
+        [PrimaryKey, Column("_id")]
         public Guid Id { get; set; }
 
         public string Value { get; set; }
@@ -132,6 +161,7 @@ namespace MyMobile
     [Table("Record")]
     public class Record
     {
+        [PrimaryKey, Column("_id")]
         public Guid Id { get; set; }
         /// <summary>
         /// Какой автомат
@@ -157,6 +187,17 @@ namespace MyMobile
         ///// Отправлено в отчет
         ///// </summary>
         public bool IsSend { get; set; }
+    }
+
+    [Table("UserInfo")]
+    public class UserInfo
+    {
+        [PrimaryKey, Column("_id")]
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int RoleName { get; set; }
+        public string Password { get; set; }
+
     }
 
 }

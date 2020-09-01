@@ -81,8 +81,21 @@
                 <Button Grid.Row="3" x:Name="SaveButton" Margin="1"  Text="СОХРАНИТЬ" FontSize="20" HorizontalOptions="FillAndExpand" Clicked="SaveButton_OnClicked"/>
             </Grid>
 
-            
 
+
+            <StackLayout x:Name="ReportGrid" Grid.Row="1" IsVisible="False" Padding="100" Spacing="0" BackgroundColor="White">
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>-->
+                <DatePicker x:Name="StartDatePicker" FontSize="20" HorizontalOptions="CenterAndExpand"  Format="dd/M/yyyy"/>
+                <DatePicker x:Name="EndDatePicker" FontSize="20" HorizontalOptions="CenterAndExpand"  Format="dd/M/yyyy"/>
+                <Button x:Name="SendReportButton" Text="Отправить" Clicked="SendReportButton_OnClicked"/>
+                <Button x:Name="CancelReportButton" Text="Отмена" Clicked="CancelReportButton_OnClicked"/>
+
+            </StackLayout>
               
             <Grid Grid.Row="0" VerticalOptions="Center">
                 <Grid.ColumnDefinitions>
@@ -101,9 +114,11 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Button x:Name="ReportButton" Grid.Row="1" Text="Отправить отчет" Clicked="ReportButton_OnClicked" ></Button>
+                <Button x:Name="ReportViewButton" Grid.Row="1" Text="Отправить отчет" Clicked="ReportViewButton_OnClicked" ></Button>
                 <Button x:Name="ImportDataButton" Grid.Row="2" Text="Загрузить данные" Clicked="ImportDataButton_OnClicked" ></Button>
             </Grid>
+            
+            
             <ImageButton x:Name="MenuButton" Grid.Row="0" HorizontalOptions="End"  Source="menu" Margin="2" Clicked="MenuButton_OnClicked"/>
             
 

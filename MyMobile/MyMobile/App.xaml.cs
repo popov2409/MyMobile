@@ -13,8 +13,6 @@ namespace MyMobile
         private const string DATABASE_NAME = "mainbase.db";
         private static DbProxy database;
 
-        private static Reporter report;
-
         public static DbProxy Database
         {
             get
@@ -25,11 +23,11 @@ namespace MyMobile
                         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME);
                     database = new DbProxy(path);
                 }
+
                 return database;
             }
         }
 
-        public static Reporter Report => report ?? (report = new Reporter());
 
         public App()
         {
