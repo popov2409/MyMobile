@@ -66,13 +66,21 @@ namespace MyMobile
             bool result = await DisplayAlert("Сохранение", "Сохранить данные?", "Да", "Нет");
             if(!result) return;
 
+            var recor = App.Database.GetRecords();
+
+            if (recor.Any()&& DateTime.Now < recor.Max(c => DateTime.Parse(c.Date)))
+            {
+                await DisplayAlert("Ошибка", "Неверная дата!", "Ok");
+                return;
+            }
+
             foreach (Ingredient ingredient in IngredientListView.ItemsSource)
             {
                 if(ingredient.Count==0) continue;
                 Record rec = new Record
                 {
                     Id=Guid.NewGuid(),
-                    Date = InputDatePicker.Date.ToShortDateString(),
+                    Date = DateTime.Now.ToShortDateString(),
                     AvtomatId = selectedAvtomat.Id,
                     IngredientId = ingredient.Id,
                     IngredientCount = ingredient.Count,

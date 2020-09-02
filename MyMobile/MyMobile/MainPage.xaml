@@ -17,14 +17,8 @@
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Image></Image>
-                    <Entry x:Name="AvtomatSearchEntry" Grid.Column="0" Margin="3" FontSize="16" FontAttributes="Bold" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
-                </Grid>
+                    
+                <SearchBar x:Name="AvtomatSearchEntry" Grid.Row="0" FontSize="16" TextColor="Gray" TextChanged="AvtomatSearchEntry_OnTextChanged"/>
 
 
                 <ListView x:Name="AvtomatListView" Grid.Row="1" ItemSelected="AvtomatListView_OnItemSelected">
@@ -56,7 +50,6 @@
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <DatePicker x:Name="InputDatePicker" Grid.Row="0" FontSize="20" HorizontalOptions="End"  Format="dd/M/yyyy"/>
                 <Label x:Name="AvtomatNameLabel" Grid.Row="1" Text="cc" Margin="10,0,0,0" TextColor="Black" FontSize="26" VerticalOptions="FillAndExpand"/>
                 <ListView x:Name="IngredientListView" Grid.Row="2" Margin="20,0,0,0">
                     <ListView.ItemTemplate>
@@ -71,7 +64,7 @@
                                         <!--<Stepper Grid.Column="2" x:Name="Stepper" Minimum="0" Maximum="9999" Value="{Binding Path=Count}"/>-->
                                         <Label Grid.Column="0" FontSize="22" Text="{Binding Path=Value}" VerticalOptions="Center"/>
                                         <!--<Entry Grid.Column="1" TextColor="White" FontSize="20" Text="{Binding Source={x:Reference Stepper}, Path=Value}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Keyboard="Numeric" Unfocused="VisualElement_OnUnfocused"/>-->
-                                        <Entry Grid.Column="1" FontSize="22" Text="{Binding Path=Count}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Keyboard="Numeric" Unfocused="VisualElement_OnUnfocused"/>
+                                        <Entry Grid.Column="1" FontSize="22" Text="{Binding Path=Count}" HorizontalTextAlignment="Center" VerticalTextAlignment="End" Keyboard="Numeric" Unfocused="VisualElement_OnUnfocused" BackgroundColor="Transparent"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>
