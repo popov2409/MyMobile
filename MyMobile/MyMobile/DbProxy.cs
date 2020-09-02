@@ -92,7 +92,13 @@ namespace MyMobile
                 database.Delete<Ingredient>(ingridient.Id);
             }
 
-            database.Delete<UserInfo>(GetUserInfo());
+            try
+            {
+                database.Delete<UserInfo>(GetUserInfo().Id);
+            }
+            catch
+            {
+            }
         }
 
         public void DropTables()

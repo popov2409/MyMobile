@@ -132,8 +132,9 @@ namespace MyMobile
 
         void ImportData()
         {
-            string res= ReadData();
-
+            string res = ReadData();
+            //string res =
+            //    "d2f862e9-8c7c-406a-b768-99148098e783:Атрус;8dd6339d-5b16-42ce-9a64-3b118606544b:Бау Коля;68f78d66-00ab-4594-9f98-c99f007d5b02:Бау Федя#61779128-b995-4a7f-9ba1-e85e16ba8964:Сахар;ceddcfc8-57ff-44fc-ba49-b7f29bfa19dc:Палочки#da9bed78-1952-4fc9-9a1b-175b96762642:Вася:111:7";
             if (!res.Any())
             {
                 DisplayAlert("Нет файла с данными!", "Скопируйте файл LIST в память телефона и повторите операцию!","Ok");
@@ -174,6 +175,8 @@ namespace MyMobile
                 Password = userInfo[2],
                 RoleName = int.Parse(userInfo[3])
             };
+            App.Database.SaveItem(user);
+            DisplayAlert("Загрузка данных", "Данные успешно загружены!", "Ok");
 
             InitializePage();
 
