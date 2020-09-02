@@ -43,15 +43,19 @@ namespace MyMobile
             IngredientListView.ItemsSource = App.Database.GetIngridients().OrderBy(c => c.Value);
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().OrderBy(c => c.Value);
             selectedAvtomat = null;
-            var cc = App.Database.GetUserInfo();
-            var d = cc != null ? $"({cc.Name})" : "";
-            HeaderLabel.Text = $"Автоматы{d}";
+            HeaderLabel.Text = "Автоматы";
         }
 
 
         private void AvtomatSearchEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             AvtomatListView.ItemsSource = App.Database.GetAvtomats().Where(c=>c.Value.ToLower().Contains(AvtomatSearchEntry.Text.ToLower())).OrderBy(c => c.Value);
+            if (AvtomatSearchEntry.Text.Equals("#userinfo") && App.Database.GetAvtomats().Any())
+            {
+                AvtomatSearchEntry.Text = "";
+                DisplayAlert("Информация об операторе", App.Database.GetUserInfo().Name, "Ok");
+            }
+
         }
 
 

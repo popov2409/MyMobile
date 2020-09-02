@@ -42,16 +42,7 @@ namespace MyMobile
             }
         }
 
-        public UserInfo GetUserInfo()
-        {
-            List<UserInfo> ui = database.Table<UserInfo>().ToList();
-            if (ui.Count == 0)
-            {
-                return null;
-            }
-
-            return database.Table<UserInfo>().ToList()[0];
-        }
+        public UserInfo GetUserInfo()=> database.Table<UserInfo>().ToList()[0];
 
         public Avtomat GetAvtomat(Guid id)
         {
@@ -101,7 +92,7 @@ namespace MyMobile
                 database.Delete<Ingredient>(ingridient.Id);
             }
 
-            if(GetUserInfo()!=null) database.Delete<UserInfo>(GetUserInfo());
+            database.Delete<UserInfo>(GetUserInfo());
         }
 
         public void DropTables()

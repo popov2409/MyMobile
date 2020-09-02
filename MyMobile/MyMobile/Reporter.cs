@@ -32,9 +32,6 @@ namespace MyMobile
         {
             List<string> report = GetReport(startDate, endDate);
             
-
-            //SaveTextAsync(text);
-
             var message = new EmailMessage
             {
                 Subject = "",
