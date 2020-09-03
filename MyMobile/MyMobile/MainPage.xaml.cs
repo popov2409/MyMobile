@@ -243,8 +243,12 @@ namespace MyMobile
                 return;
             }
 
-            StartDatePicker.Date = records.Where(c => !c.IsSend).Min(c => DateTime.Parse(c.Date));
-            EndDatePicker.Date = records.Where(c => !c.IsSend).Max(c => DateTime.Parse(c.Date));
+            if (records.Count(c => !c.IsSend) > 0)
+            {
+                StartDatePicker.Date = records.Where(c => !c.IsSend).Min(c => DateTime.Parse(c.Date));
+                EndDatePicker.Date = records.Where(c => !c.IsSend).Max(c => DateTime.Parse(c.Date));
+            }
+
             ReportGrid.IsVisible = true;
 
         }
