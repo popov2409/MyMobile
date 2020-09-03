@@ -243,19 +243,10 @@ namespace MyMobile
                 return;
             }
 
-            if (records.Count(c => !c.IsSend) == 0)
-            {
-                DisplayAlert("Уведомление", "Все данные в базе были отправлены оператору!", "OK");
-
-            }
-            else
-            {
-                StartDatePicker.Date = records.Where(c => !c.IsSend).Min(c => DateTime.Parse(c.Date));
-                EndDatePicker.Date = records.Where(c => !c.IsSend).Max(c => DateTime.Parse(c.Date));
-            }
-            
+            StartDatePicker.Date = records.Where(c => !c.IsSend).Min(c => DateTime.Parse(c.Date));
+            EndDatePicker.Date = records.Where(c => !c.IsSend).Max(c => DateTime.Parse(c.Date));
             ReportGrid.IsVisible = true;
-            
+
         }
 
         private void SendReportButton_OnClicked(object sender, EventArgs e)
