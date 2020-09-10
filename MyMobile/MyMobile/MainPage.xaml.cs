@@ -207,7 +207,7 @@ namespace MyMobile
             string result="";
             try
             {
-                using (var reader = new StreamReader("/storage/sdcard0/LIST.txt", true))
+                using (var reader = new StreamReader("/storage/emulated/0/LIST.txt", true))
                 {
                     result = reader.ReadLine();
                 }
